@@ -32,7 +32,6 @@ func Create(long string, db gorm.DB) (Shortener, error) {
 			return Shortener{}, result.Error
 		}
 	} else {
-		fmt.Println(last.ID)
 		id = int(last.ID + 1)
 	}
 
