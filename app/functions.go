@@ -3,7 +3,7 @@ package app
 import "github.com/mrityunjaygr8/shorty/db"
 
 func (a *App) Lookup(token string) (string, bool, error) {
-	value, found, err := db.Lookup(token, *a.DB)
+	value, found, err := db.LookupUsingToken(token, *a.DB)
 	if err != nil {
 		return "", false, err
 	}
