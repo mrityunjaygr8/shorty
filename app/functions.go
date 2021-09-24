@@ -1,6 +1,10 @@
 package app
 
-import "github.com/mrityunjaygr8/shorty/db"
+import (
+	"time"
+
+	"github.com/mrityunjaygr8/shorty/db"
+)
 
 func (a *App) Lookup(token string) (string, bool, error) {
 	value, found, err := db.LookupUsingToken(token, *a.DB)
@@ -16,7 +20,7 @@ func (a *App) Create(url string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if present {
+	if present && value.Expiry_at.After(time.Now().UTC()) {
 		return value.Token, nil
 
 	} else {
