@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/jackc/pgconn"
-	"github.com/speps/go-hashids/v2"
 	"gorm.io/gorm"
 )
 
@@ -35,14 +34,10 @@ func Create(long string, db gorm.DB) (Shortener, error) {
 		id = int(last.ID + 1)
 	}
 
-	hd := hashids.NewData()
-	hd.Salt = "Mera Salt"
-	hd.MinLength = 8
-	h, err := hashids.NewWithData(hd)
+	token, err := encodeHashid(id)
 	if err != nil {
 		return Shortener{}, err
 	}
-	token, _ := h.Encode([]int{id})
 	now := time.Now().UTC()
 	expiry := now.Add(time.Hour * CONFIG_EXPIRY_HOURS)
 	short := Shortener{
