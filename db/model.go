@@ -62,7 +62,19 @@ func Create(long string, db gorm.DB) (Shortener, error) {
 	return short, nil
 }
 
-func Lookup(token string, db gorm.DB) (Shortener, bool, error) {
+func LookupUsingURL(url string, db gorm.DB) (Shortener, bool, error) {
+	value := Shortener{}
+	result := db.First(&value, "long_url = ?", url)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return Shortener{}, false, nil
+		} else {
+			return Shortener{}, false, result.Error
+		}
+	}
+	return value, true, nil
+}
+func LookupUsingToken(token string, db gorm.DB) (Shortener, bool, error) {
 	long := Shortener{}
 	result := db.First(&long, "token = ?", token)
 	if result.Error != nil && errors.Is(result.Error, gorm.ErrRecordNotFound) {
