@@ -12,10 +12,18 @@ func (a *App) Lookup(token string) (string, bool, error) {
 }
 
 func (a *App) Create(url string) (string, error) {
-	value, err := db.Create(url, *a.DB)
+	value, present, err := db.LookupUsingURL(url, *a.DB)
 	if err != nil {
 		return "", err
 	}
+	if present {
+		return value.Token, nil
 
-	return value.Token, nil
+	} else {
+		value, err := db.Create(url, *a.DB)
+		if err != nil {
+			return "", err
+		}
+		return value.Token, nil
+	}
 }
