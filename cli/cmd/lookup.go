@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/mrityunjaygr8/shorty/app"
+	"github.com/mrityunjaygr8/shorty/utils"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -16,7 +17,11 @@ var lookupCmd = &cobra.Command{
 	Short: "A command to lookup the long URL for the short token",
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
-		app := app.Setup(app.Config{DB_NAME: "postgres", DB_USER: "root", DB_PASS: "secret", DB_HOST: "localhost", DB_PORT: 5432, DB_SSL: "disable"})
+		config, err := utils.GetConfig()
+		if err != nil {
+			return err
+		}
+		app := app.Setup(config)
 		url, found, err := app.Lookup(args[0])
 		if err != nil {
 			return err
