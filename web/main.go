@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-
 	"github.com/mrityunjaygr8/shorty/utils"
+	"github.com/mrityunjaygr8/shorty/web/web"
 )
 
 func main() {
@@ -15,4 +15,5 @@ func main() {
 
 	fmt.Println(config)
 
+	web.SetupRouter(config)
 }
