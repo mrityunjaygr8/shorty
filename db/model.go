@@ -64,7 +64,7 @@ func Create(long string, db gorm.DB) (Shortener, error) {
 
 func LookupUsingURL(url string, db gorm.DB) (Shortener, bool, error) {
 	value := Shortener{}
-	result := db.First(&value, "long_url = ?", url)
+	result := db.Order("created_at desc").Find(&value, "long_url = ?", url)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return Shortener{}, false, nil
