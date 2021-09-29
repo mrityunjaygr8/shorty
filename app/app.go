@@ -11,12 +11,14 @@ type App struct {
 }
 
 type Config struct {
-	DB_NAME string
-	DB_USER string
-	DB_PASS string
-	DB_HOST string
-	DB_PORT uint
-	DB_SSL  string
+	DB_NAME  string
+	DB_USER  string
+	DB_PASS  string
+	DB_HOST  string
+	DB_PORT  uint
+	DB_SSL   string
+	WEB_PORT uint
+	WEB_HOST string
 }
 
 func Setup(config Config) App {
