@@ -32,6 +32,7 @@ func SetupRouter(config app.Config) {
 	webApp.router = mux.NewRouter().StrictSlash(true)
 	webApp.router.HandleFunc("/yo", yo)
 	webApp.router.HandleFunc("/create", webApp.createHandler)
+	webApp.router.HandleFunc("/{token}", webApp.lookupHandler)
 
 	var logger log.Logger
 
@@ -47,5 +48,4 @@ func SetupRouter(config app.Config) {
 		logger.Log("status", "fatal", "err", err)
 		os.Exit(1)
 	}
-
 }
